@@ -240,6 +240,11 @@
   /* ABERTURA */
   .intro{text-align:center;margin-bottom:34px;transition:opacity .6s ease,transform .6s ease}
   .intro.gone{opacity:0;transform:translateY(-14px)}
+  .gwrap{margin-top:26px;text-align:center}
+  .gwrap[hidden]{display:none}
+  .gphoto{width:150px;height:150px;margin:0 auto;border-radius:50%;padding:4px;background:var(--foil);box-shadow:0 0 34px rgba(224,165,38,.35),0 10px 30px rgba(0,0,0,.7)}
+  .gcap{margin-top:12px;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--gold-hi)}
+  .gphoto img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:2px solid #000;display:block;background:#000}
   .intro .eyebrow{font-size:.72rem;letter-spacing:.4em}
   .intro .iname{
     font-family:'Cinzel',serif;font-weight:500;text-transform:uppercase;letter-spacing:.12em;line-height:1.25;
@@ -397,6 +402,7 @@
           <div class="wide"><b>LOCAL</b><span id="vPlace"></span></div>
         </div>
         <div class="count" id="count"></div>
+        <div class="gwrap" id="gphoto" hidden><div class="gphoto"><img id="gphotoImg" alt=""></div><div class="gcap" id="gcap"></div></div>
         <div class="sabores">
           <div class="eyebrow">Uma noite de sabores</div>
           <div class="sab-grid">
@@ -460,6 +466,15 @@ if(GUEST){
 }
 $('vLead').textContent = CONFIG.texto;
 $('toLine').textContent = CONFIG.convidado;
+/* foto do convidado: fotos/<nome-sem-acento-com-hifens>.jpg (ou ?foto=arquivo) */
+function slugNome(n){return n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
+if(GUEST){
+  try{
+    const q=new URLSearchParams(location.search);
+    const f=(q.get('foto')||slugNome(GUEST)).replace(/[^a-z0-9_-]/gi,'');
+    if(f){const im=new Image();im.onload=()=>{const t=$('gphotoImg');t.src=im.src;t.alt='Foto de '+GUEST;$('gcap').textContent='Sua presença é essencial, '+GUEST.split(' ')[0]+'.';$('gphoto').hidden=false};im.src='fotos/'+f+'.jpg'}
+  }catch(e){}
+}
 $('vDate').textContent = dFmt.format(when);
 $('vTime').textContent = hora;
 $('vPlace').textContent = CONFIG.local;
