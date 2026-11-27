@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#050301">
+<title>Gerador de links — Convite de Formatura</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#e0a526;--gold-hi:#f6d27a;--gold-lo:#a8741a;--foil:linear-gradient(135deg,#a8741a 0%,#f6d27a 38%,#e0a526 55%,#b98322 100%)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:#050301;color-scheme:dark}
+  body{font-family:'Cormorant Garamond',Georgia,serif;color:#e9dcc0;min-height:100vh;padding:28px 16px 60px;
+    background:radial-gradient(ellipse at 50% 0%,#1a1409 0%,#0a0703 55%,#050301 100%)}
+  main{width:min(100%,680px);margin:0 auto}
+  .eyebrow{font-family:'Cinzel',serif;letter-spacing:.34em;font-size:.7rem;color:var(--gold);text-transform:uppercase;text-align:center}
+  h1{font-family:'Cinzel',serif;font-weight:500;font-size:clamp(1.5rem,6vw,2rem);letter-spacing:.08em;text-align:center;margin:10px 0 8px;
+    background:var(--foil);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{text-align:center;font-style:italic;font-size:1.2rem;color:#d9c9a3;margin-bottom:22px}
+  .box{border:1px solid var(--gold-lo);border-radius:4px;padding:18px;background:linear-gradient(#0c0a05,#000);margin-bottom:16px}
+  label{display:block;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+  textarea,input{width:100%;background:#000;color:#f1e6cb;border:1px solid rgba(224,165,38,.5);border-radius:3px;padding:12px;font:inherit;font-size:1.15rem;line-height:1.35}
+  textarea{min-height:130px;resize:vertical}
+  textarea:focus,input:focus{outline:2px solid var(--gold);outline-offset:1px}
+  .hint{font-style:italic;color:#a99a78;font-size:1rem;margin-top:6px}
+  button{font-family:'Cinzel',serif;letter-spacing:.14em;font-size:.72rem;text-transform:uppercase;padding:14px 18px;border-radius:2px;cursor:pointer;border:1px solid var(--gold);background:var(--foil);color:#1a1205;font-weight:600}
+  button.ghost{background:transparent;color:var(--gold-hi);font-weight:500}
+  a.btn{display:block;text-align:center;text-decoration:none;font-family:'Cinzel',serif;letter-spacing:.14em;font-size:.72rem;text-transform:uppercase;padding:14px 18px;border-radius:2px;border:1px solid var(--gold);background:var(--foil);color:#1a1205;font-weight:600;flex:1 1 100%}
+  .aviso{font-style:italic;color:#e9a0a0;font-size:1rem;margin-bottom:8px}
+  .cont{font-family:'Cinzel',serif;letter-spacing:.16em;font-size:.7rem;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:6px}
+  .ddd{display:flex;gap:10px;align-items:center;margin-top:12px}.ddd label{margin:0;white-space:nowrap}.ddd input{width:90px;text-align:center}
+  button:active{transform:translateY(1px)}
+  .row{border-top:1px dashed rgba(224,165,38,.28);padding:14px 0}
+  .row:first-child{border-top:0}
+  .nome{font-family:'Cinzel',serif;letter-spacing:.08em;color:var(--gold-hi);font-size:1rem;margin-bottom:6px}
+  .link{font-size:.95rem;color:#a99a78;word-break:break-all;margin-bottom:10px}
+  .btns{display:flex;gap:8px;flex-wrap:wrap}
+  .btns button{flex:1 1 150px}
+  .top{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .top button{flex:1 1 160px}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#000;border:1px solid var(--gold);color:var(--gold-hi);padding:12px 18px;border-radius:30px;font-size:1.05rem;opacity:0;pointer-events:none;transition:opacity .3s;z-index:10}
+  .toast.on{opacity:1}
+  .empty{text-align:center;font-style:italic;color:#a99a78;padding:8px}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Convite de Formatura</div>
+  <h1>Gerador de links</h1>
+  <p class="sub">Um link com o nome de cada convidado.</p>
+
+  <div class="box">
+    <label for="base">Endereço do convite</label>
+    <input id="base" value="https://renansouzamoraes22-cell.github.io/convite/" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false">
+  </div>
+
+  <div class="box">
+    <label for="nomes">Convidados (um por linha)</label>
+    <textarea id="nomes" placeholder="Maria Silva; 66 99999-0001&#10;João e família; (66) 98888-0002&#10;Tia Ana"></textarea>
+    <p class="hint">Escreva o nome, e se quiser enviar direto, coloque um ponto e vírgula e o WhatsApp da pessoa. O telefone é opcional. Pode usar acentos e espaços.</p>
+    <div class="ddd"><label for="ddd">DDD padrão</label><input id="ddd" value="66" inputmode="numeric" maxlength="2"></div>
+    <label for="msg" style="margin-top:16px">Mensagem para enviar junto</label>
+    <textarea id="msg" style="min-height:90px">Oi, {nome}! 🎓 Preparei um convite especial para você: {link}</textarea>
+    <p class="hint">{nome} e {link} são trocados automaticamente.</p>
+    <div class="top"><button id="gerar">Gerar links</button><button class="ghost" id="limpar">Limpar</button></div>
+  </div>
+
+  <div class="box" id="saida" hidden>
+    <div id="lista"></div>
+    <div class="top"><button class="ghost" id="copiarTodas">Copiar todas as mensagens</button></div>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let itens=[];
+function limpaNome(n){return n.replace(/[\u0000-\u001f<>]/g,'').replace(/\s+/g,' ').trim().slice(0,48)}
+function baseUrl(){let b=$('base').value.trim();if(!b)b='';if(b&&!/^https?:\/\//i.test(b))b='https://'+b;if(b&&!/[\/]$/.test(b.split('?')[0]))b=b.split('?')[0]+'/';return b.split('?')[0]}
+function montar(nome){const link=baseUrl()+'?nome='+encodeURIComponent(nome);return{nome,link,texto:$('msg').value.split('{nome}').join(nome).split('{link}').join(link)}}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1800)}
+async function copiar(txt,ok){
+  try{await navigator.clipboard.writeText(txt);toast(ok||'Copiado!')}
+  catch(e){const t=document.createElement('textarea');t.value=txt;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();try{document.execCommand('copy');toast(ok||'Copiado!')}catch(_){toast('Não consegui copiar. Selecione e copie manualmente.')}t.remove()}
+}
+function parseLinha(l){
+  l=l.trim();if(!l)return null;
+  let nome=l,tel='';
+  let m=l.match(/^(.*?)\s*[;|\t]\s*(.*)$/);
+  if(m){nome=m[1];tel=m[2]}
+  else{m=l.match(/^(.*?)[\s,]+(\+?\d[\d\s().\-]{7,}\d)$/);if(m){nome=m[1];tel=m[2]}}
+  nome=limpaNome(nome.replace(/[,;]+$/,''));
+  return nome?{nome,tel:tel.trim()}:null;
+}
+function normFone(t){
+  const d=t.replace(/\D/g,'');if(!d)return {ok:false,vazio:true};
+  const ddd=($('ddd').value||'').replace(/\D/g,'').slice(0,2);
+  if((d.length===8||d.length===9)&&ddd.length===2)return {ok:true,num:'55'+ddd+d};
+  if(d.length===10||d.length===11)return {ok:true,num:'55'+d};
+  if((d.length===12||d.length===13)&&d.startsWith('55'))return {ok:true,num:d};
+  return {ok:false};
+}
+function bonito(num){const d=num.slice(2);return '('+d.slice(0,2)+') '+d.slice(2,d.length-4)+'-'+d.slice(-4)}
+$('gerar').onclick=()=>{
+  const vistos=new Set();
+  itens=$('nomes').value.split('\n').map(parseLinha).filter(Boolean).map(x=>{
+    const it=montar(x.nome);const f=normFone(x.tel);
+    it.fone=f.ok?f.num:'';it.foneErro=!f.ok&&!f.vazio;it.foneBruto=x.tel;return it;
+  }).filter(it=>{const k=it.nome+'|'+it.fone;if(vistos.has(k))return false;vistos.add(k);return true});
+  const l=$('lista');l.textContent='';
+  if(!itens.length){$('saida').hidden=false;const d=document.createElement('div');d.className='empty';d.textContent='Escreva pelo menos um nome.';l.appendChild(d);return}
+  const c=document.createElement('div');c.className='cont';c.textContent=itens.length+(itens.length===1?' convite pronto':' convites prontos');l.appendChild(c);
+  itens.forEach(it=>{
+    const r=document.createElement('div');r.className='row';
+    const n=document.createElement('div');n.className='nome';n.textContent=it.nome+(it.fone?'  ·  '+bonito(it.fone):'');
+    r.appendChild(n);
+    if(it.foneErro){const av=document.createElement('div');av.className='aviso';av.textContent='O telefone "'+it.foneBruto+'" parece incompleto. Confira o DDD e o número.';r.appendChild(av)}
+    const k=document.createElement('div');k.className='link';k.textContent=it.link;r.appendChild(k);
+    const b=document.createElement('div');b.className='btns';
+    const w=document.createElement('a');w.className='btn';w.target='_blank';w.rel='noopener';
+    w.href='https://api.whatsapp.com/send?'+(it.fone?'phone='+it.fone+'&':'')+'text='+encodeURIComponent(it.texto);
+    w.textContent=it.fone?'Enviar no WhatsApp':'Escolher contato no WhatsApp';
+    b.appendChild(w);
+    const b1=document.createElement('button');b1.className='ghost';b1.textContent='Copiar mensagem';b1.onclick=()=>copiar(it.texto,'Mensagem copiada!');
+    const b2=document.createElement('button');b2.className='ghost';b2.textContent='Copiar só o link';b2.onclick=()=>copiar(it.link,'Link copiado!');
+    const b3=document.createElement('button');b3.className='ghost';b3.textContent='Ver convite';b3.onclick=()=>window.open(it.link,'_blank','noopener');
+    b.append(b1,b2,b3);r.appendChild(b);l.appendChild(r);
+  });
+  $('saida').hidden=false;
+  $('saida').scrollIntoView({behavior:'smooth',block:'start'});
+};
+$('limpar').onclick=()=>{$('nomes').value='';$('lista').textContent='';$('saida').hidden=true;itens=[]};
+$('copiarTodas').onclick=()=>copiar(itens.map(i=>i.nome+'\n'+i.texto).join('\n\n'),'Tudo copiado!');
+try{const s=localStorage.getItem('gl_nomes');if(s)$('nomes').value=s}catch(e){}
+$('nomes').addEventListener('input',()=>{try{localStorage.setItem('gl_nomes',$('nomes').value)}catch(e){}});
+</script>
+</body>
+</html>
