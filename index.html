@@ -96,8 +96,8 @@
     transition:transform .5s,opacity .4s;animation:pulse 2.2s ease-in-out infinite;
   }
   @keyframes pulse{50%{transform:scale(1.07);box-shadow:0 0 0 5px #000,0 0 0 6px var(--gold-lo),0 0 34px rgba(246,210,122,.7)}}
-  .to-line{
-    position:absolute;left:0;right:0;bottom:11%;z-index:5;text-align:center;pointer-events:none;
+  .to-line{padding:0 9%;line-height:1.5;
+    position:absolute;left:0;right:0;bottom:5%;z-index:5;text-align:center;pointer-events:none;
     font-family:'Cinzel',serif;letter-spacing:.28em;font-size:.78rem;color:var(--gold);text-transform:uppercase;transition:opacity .4s
   }
   .envelope.open{cursor:default}
@@ -452,6 +452,12 @@ const tFmt = new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit',ti
 const hora = tFmt.format(when).replace(':','h');
 
 $('vHeadline').textContent = CONFIG.titulo;
+const GUEST=(function(){try{const p=new URLSearchParams(location.search);return (p.get('nome')||p.get('n')||'').replace(/[\u0000-\u001f<>]/g,'').replace(/\s+/g,' ').trim().slice(0,48)}catch(e){return ''}})();
+if(GUEST){
+  CONFIG.convidado='Para '+GUEST;
+  CONFIG.texto=GUEST+', '+CONFIG.texto.charAt(0).toLowerCase()+CONFIG.texto.slice(1);
+  const ie=document.querySelector('.intro .eyebrow');if(ie)ie.textContent='Convite especial para '+GUEST;
+}
 $('vLead').textContent = CONFIG.texto;
 $('toLine').textContent = CONFIG.convidado;
 $('vDate').textContent = dFmt.format(when);
@@ -644,7 +650,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&!menuEl.hidden)closeMenu()})
 const WHATS = "5566992167429";           // (66) 99216-7429
 const WHATS_VISIVEL = "(66) 99216-7429";
 const primeiroNome = CONFIG.nome.split(' ')[0];
-const msg = `Olá, ${primeiroNome}! Confirmo minha presença no seu Baile de Gala de formatura em Enfermagem, no dia ${dFmt.format(when)}, às ${hora}, no ${CONFIG.local}.\n\nNome de quem vai: `;
+const msg = `Olá, ${primeiroNome}! Confirmo minha presença no seu Baile de Gala de formatura em Enfermagem, no dia ${dFmt.format(when)}, às ${hora}, no ${CONFIG.local}.\n\nNome de quem vai: ${GUEST}`;
 $('rsvp').href = 'https://api.whatsapp.com/send?phone=' + WHATS + '&text=' + encodeURIComponent(msg);
 $('rsvp').addEventListener('click',()=>{
   confetti();
